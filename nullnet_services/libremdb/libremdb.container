@@ -1,0 +1,27 @@
+[Unit]
+Description=LibremDB Container
+After=libremdb-redis.service
+
+[Container]
+AutoUpdate=registry
+ContainerName=libremdb
+DropCapability=ALL
+Image=ghcr.io/reflux0301/libremdb:latest
+Environment=NEXT_TELEMETRY_DISABLED=1
+Environment=NEXT_PUBLIC_URL=https://libremdb.nullnet.services
+Environment=AXIOS_USERAGENT="Mozilla/5.0 (X11; Linux x86_64; rv:108.0) Gecko/20100101 Firefox/108.0"
+Environment=AXIOS_ACCEPT="text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8"
+Network=libremdb.network
+User=65534:65534
+ReadOnly=true
+Tmpfs=/opt/app/.next/cache/images/:size=10M,noexec,nosuid,nodev
+NoNewPrivileges=true
+PublishPort=3007:3000
+
+[Service]
+Restart=always
+TimeoutStartSec=180
+
+[Install]
+# Start by default on boot
+WantedBy=multi-user.target default.target

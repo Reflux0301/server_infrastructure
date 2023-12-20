@@ -1,0 +1,24 @@
+[Unit]
+Description=Libreddit Container
+After=local-fs.target
+
+[Container]
+AutoUpdate=registry
+ContainerName=libreddit
+DropCapability=ALL
+Image=ghcr.io/reflux0301/libreddit:latest
+Environment=LIBREDDIT_BANNER="Libreddit hosted by nullnet.services"
+Environment=LIBREDDIT_DEFAULT_THEME=black
+Network=libreddit.network
+PublishPort=3002:8080
+User=65534:65534
+ReadOnly=true
+NoNewPrivileges=true
+
+[Service]
+Restart=always
+TimeoutStartSec=180
+
+[Install]
+# Start by default on boot
+WantedBy=multi-user.target default.target

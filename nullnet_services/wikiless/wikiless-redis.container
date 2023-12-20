@@ -1,0 +1,19 @@
+[Unit]
+Description=Wikiless Redis Container
+Before=wikiless.service
+After=local-fs.target
+
+[Container]
+AutoUpdate=registry
+ContainerName=wikiless-redis
+Image=docker.io/library/redis:alpine
+Network=wikiless.network
+Volume=wikiless-cache:/data
+
+[Service]
+Restart=always
+TimeoutStartSec=180
+
+[Install]
+# Start by default on boot
+WantedBy=multi-user.target default.target

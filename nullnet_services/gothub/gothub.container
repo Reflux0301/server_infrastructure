@@ -1,0 +1,20 @@
+[Unit]
+Description=Gothub Container
+After=local-fs.target
+
+[Container]
+AutoUpdate=registry
+ContainerName=gothub
+DropCapability=ALL
+Image=ghcr.io/reflux0301/gothub:latest
+Network=gothub.network
+NoNewPrivileges=true
+PublishPort=3006:3000
+
+[Service]
+Restart=always
+TimeoutStartSec=180
+
+[Install]
+# Start by default on boot
+WantedBy=multi-user.target default.target

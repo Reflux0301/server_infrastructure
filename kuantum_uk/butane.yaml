@@ -1,0 +1,82 @@
+variant: fcos
+version: 1.5.0
+boot_device:
+  luks:
+    tpm2: true
+    tang:
+      - url: http://192.168.1.130
+        thumbprint: kIBh_MfcUIQ58TJ6_8VgJ19Hg0APBdX-wW588CGSePA 
+    threshold: 2
+passwd:
+  users:
+    - name: nsa_admin
+      home_dir: /home/nsa_admin
+      groups:
+        - wheel
+        - sudo
+      shell: /bin/bash
+      ssh_authorized_keys: 
+        - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAku+jOnrGRxpe0TBUmN8FjmQaKvbcOWLsCej4GQ/sjd kuantum@DESKTOP-6HK09KG
+kernel_arguments:
+  should_exist:
+    - ip=192.168.1.200::192.168.1.1:255.255.255.0:server.kuantum.uk:eth0:none:1.1.1.1
+    - spectre_v2=on
+    - spec_store_bypass_disable=on
+    - l1tf=full,force
+    - mds=full,nosmt
+    - tsx=off
+    - tsx_async_abort=full,nosmt
+    - kvm.nx_huge_pages=force
+    - nosmt=force
+    - l1d_flush=on
+    - mmio_stale_data=full,nosmt
+    - random.trust_bootloader=off
+    - random.trust_cpu=off
+    - intel_iommu=on
+    - amd_iommu=force_isolation
+    - efi=disable_early_pci_dma
+    - iommu=force
+    - iommu.passthrough=0
+    - iommu.strict=1
+    - slab_nomerge
+    - init_on_alloc=1
+    - init_on_free=1
+    - pti=on
+    - vsyscall=none
+    - page_alloc.shuffle=1
+    - randomize_kstack_offset=on
+    - extra_latent_entropy
+    - debugfs=off
+systemd:
+  units:
+    - name: rpm-ostree-install@.service
+      enabled: true
+      contents_local: rpm-ostree-install@.service
+    - name: rpm-ostree-install@hyperv-daemons-license.service
+      enabled: true
+    - name: rpm-ostree-install@hyperv-daemons.service
+      enabled: true
+    - name: systemd-oomd.service
+      enabled: true
+    - name: rpm-ostree-countme.timer
+      enabled: false
+      mask: true
+    - name: docker.service
+      enabled: false
+storage:
+  directories:
+    - path: /var/cache/rpm-ostree-install
+    - path: /var/local/podman/configs/vaultwarden
+  files:
+    - path: /etc/hostname
+      mode: 0644
+      contents:
+        inline: server.kuantum.uk
+    - path: /etc/containers/systemd/vaultwarden.network
+      mode: 0644
+      contents:
+        local: vaultwarden/vaultwarden.network
+    - path: /etc/containers/systemd/vaultwarden.container
+      mode: 0644
+      contents:
+        local: vaultwarden/vaultwarden.container

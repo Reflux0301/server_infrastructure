@@ -1,0 +1,19 @@
+[Unit]
+Description=Nitter Redis Container
+Before=nitter.service
+
+[Container]
+AutoUpdate=registry
+ContainerName=nitter-redis
+Exec=redis-server --save 60 1 --loglevel warning
+Image=docker.io/library/redis:6-alpine
+Network=nitter.network
+Volume=nitter-redis:/data
+
+[Service]
+Restart=always
+TimeoutStartSec=180
+
+[Install]
+# Start by default on boot
+WantedBy=multi-user.target default.target

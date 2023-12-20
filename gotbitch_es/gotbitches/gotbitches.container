@@ -1,0 +1,22 @@
+[Unit]
+Description=Gotbitches Container
+After=local-fs.target
+
+[Container]
+AutoUpdate=registry
+ContainerName=gotbitches
+DropCapability=ALL
+Image=ghcr.io/reflux0301/gotbitches:latest
+Network=gotbitches.network
+PublishPort=7901:8080
+ReadOnly=true
+NoNewPrivileges=true
+Tmpfs=/tmp:size=10M,noexec,nosuid,nodev
+
+[Service]
+Restart=always
+TimeoutStartSec=180
+
+[Install]
+# Start by default on boot
+WantedBy=multi-user.target default.target

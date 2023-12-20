@@ -1,0 +1,283 @@
+variant: fcos
+version: 1.5.0
+boot_device:
+  luks:
+    tpm2: true
+    tang:
+      - url: http://192.168.1.130
+        thumbprint: kIBh_MfcUIQ58TJ6_8VgJ19Hg0APBdX-wW588CGSePA
+    threshold: 2
+passwd:
+  users:
+    - name: nsa_admin
+      home_dir: /home/nsa_admin
+      groups:
+        - wheel
+        - sudo
+      shell: /bin/bash
+      ssh_authorized_keys: 
+        - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAku+jOnrGRxpe0TBUmN8FjmQaKvbcOWLsCej4GQ/sjd kuantum@DESKTOP-6HK09KG
+kernel_arguments:
+  should_exist:
+    - ip=192.168.1.202::192.168.1.1:255.255.255.0:server.nullnet.services:eth0:none:1.1.1.1
+    - spectre_v2=on
+    - spec_store_bypass_disable=on
+    - l1tf=full,force
+    - mds=full,nosmt
+    - tsx=off
+    - tsx_async_abort=full,nosmt
+    - kvm.nx_huge_pages=force
+    - nosmt=force
+    - l1d_flush=on
+    - mmio_stale_data=full,nosmt
+    - random.trust_bootloader=off
+    - random.trust_cpu=off
+    - intel_iommu=on
+    - amd_iommu=force_isolation
+    - efi=disable_early_pci_dma
+    - iommu=force
+    - iommu.passthrough=0
+    - iommu.strict=1
+    - slab_nomerge
+    - init_on_alloc=1
+    - init_on_free=1
+    - pti=on
+    - vsyscall=none
+    - page_alloc.shuffle=1
+    - randomize_kstack_offset=on
+    - extra_latent_entropy
+    - debugfs=off
+systemd:
+  units:
+    - name: rpm-ostree-install@.service
+      enabled: true
+      contents_local: rpm-ostree-install@.service
+    - name: rpm-ostree-install@hyperv-daemons-license.service
+      enabled: true
+    - name: rpm-ostree-install@hyperv-daemons.service
+      enabled: true
+    - name: rpm-ostree-install@podman-compose.service
+      enabled: true
+    - name: proxitok-compose.service
+      enabled: true
+      contents_local: proxitok-compose.service
+    - name: systemd-oomd.service
+      enabled: true
+    - name: rpm-ostree-countme.timer
+      enabled: false
+      mask: true
+    - name: docker.service
+      enabled: false
+storage:
+  directories:
+    - path: /var/cache/rpm-ostree-install
+    - path: /var/local/podman/configs/searxng
+    - path: /etc/systemd/system/NetworkManager.service.d
+    - path: /etc/systemd/system/irqbalance.service.d
+  files:
+    - path: /etc/hostname
+      mode: 0644
+      contents:
+        inline: server.nullnet.services
+    - path: /etc/containers/systemd/main_site.network
+      mode: 0644
+      contents:
+        local: main_site/main_site.network
+    - path: /etc/containers/systemd/main_site.image
+      mode: 0644
+      contents:
+        local: main_site/main_site.image
+    - path: /etc/containers/systemd/main_site.container
+      mode: 0644
+      contents:
+        local: main_site/main_site.container
+    - path: /etc/containers/systemd/wikiless-redis.image
+      mode: 0644
+      contents:
+        local: wikiless/wikiless-redis.image
+    - path: /etc/containers/systemd/wikiless-redis.container
+      mode: 0644
+      contents:
+        local: wikiless/wikiless-redis.container
+    - path: /etc/containers/systemd/wikiless.network
+      mode: 0644
+      contents:
+        local: wikiless/wikiless.network
+    - path: /etc/containers/systemd/wikiless.image
+      mode: 0644
+      contents:
+        local: wikiless/wikiless.image
+    - path: /etc/containers/systemd/wikiless.container
+      mode: 0644
+      contents:
+        local: wikiless/wikiless.container
+    - path: /etc/containers/systemd/simplytranslate.network
+      mode: 0644
+      contents:
+        local: simplytranslate/simplytranslate.network
+    - path: /etc/containers/systemd/simplytranslate.image
+      mode: 0644
+      contents:
+        local: simplytranslate/simplytranslate.image
+    - path: /etc/containers/systemd/simplytranslate.container
+      mode: 0644
+      contents:
+        local: simplytranslate/simplytranslate.container
+    - path: /etc/containers/systemd/searxng-redis.image
+      mode: 0644
+      contents:
+        local: searxng/searxng-redis.image
+    - path: /etc/containers/systemd/searxng-redis.container
+      mode: 0644
+      contents:
+        local: searxng/searxng-redis.container
+    - path: /etc/containers/systemd/searxng.network
+      mode: 0644
+      contents:
+        local: searxng/searxng.network
+    - path: /etc/containers/systemd/searxng.image
+      mode: 0644
+      contents:
+        local: searxng/searxng.image
+    - path: /etc/containers/systemd/searxng.container
+      mode: 0644
+      contents:
+        local: searxng/searxng.container
+    - path: /etc/containers/systemd/rimgo.network
+      mode: 0644
+      contents:
+        local: rimgo/rimgo.network
+    - path: /etc/containers/systemd/rimgo.image
+      mode: 0644
+      contents:
+        local: rimgo/rimgo.image
+    - path: /etc/containers/systemd/rimgo.container
+      mode: 0644
+      contents:
+        local: rimgo/rimgo.container
+    - path: /etc/containers/systemd/neuters.network
+      mode: 0644
+      contents:
+        local: neuters/neuters.network
+    - path: /etc/containers/systemd/neuters.image
+      mode: 0644
+      contents:
+        local: neuters/neuters.image
+    - path: /etc/containers/systemd/neuters.container
+      mode: 0644
+      contents:
+        local: neuters/neuters.container
+    - path: /etc/containers/systemd/libremdb-redis.image
+      mode: 0644
+      contents:
+        local: libremdb/libremdb-redis.image
+    - path: /etc/containers/systemd/libremdb-redis.container
+      mode: 0644
+      contents:
+        local: libremdb/libremdb-redis.container
+    - path: /etc/containers/systemd/libremdb.network
+      mode: 0644
+      contents:
+        local: libremdb/libremdb.network
+    - path: /etc/containers/systemd/libremdb.image
+      mode: 0644
+      contents:
+        local: libremdb/libremdb.image
+    - path: /etc/containers/systemd/libremdb.container
+      mode: 0644
+      contents:
+        local: libremdb/libremdb.container
+    - path: /etc/containers/systemd/hckrnws.network
+      mode: 0644
+      contents:
+        local: hckrnws/hckrnws.network
+    - path: /etc/containers/systemd/hckrnws.image
+      mode: 0644
+      contents:
+        local: hckrnws/hckrnws.image
+    - path: /etc/containers/systemd/hckrnws.container
+      mode: 0644
+      contents:
+        local: hckrnws/hckrnws.container
+    - path: /etc/containers/systemd/gothub.network
+      mode: 0644
+      contents:
+        local: gothub/gothub.network
+    - path: /etc/containers/systemd/gothub.image
+      mode: 0644
+      contents:
+        local: gothub/gothub.image
+    - path: /etc/containers/systemd/gothub.container
+      mode: 0644
+      contents:
+        local: gothub/gothub.container
+    - path: /etc/containers/systemd/libreddit.network
+      mode: 0644
+      contents:
+        local: libreddit/libreddit.network
+    - path: /etc/containers/systemd/libreddit.image
+      mode: 0644
+      contents:
+        local: libreddit/libreddit.image
+    - path: /etc/containers/systemd/libreddit.container
+      mode: 0644
+      contents:
+        local: libreddit/libreddit.container
+    - path: /etc/containers/systemd/nitter-redis.container
+      mode: 0644
+      contents:
+        local: nitter/nitter-redis.container
+    - path: /etc/containers/systemd/nitter-redis.image
+      mode: 0644
+      contents:
+        local: nitter/nitter-redis.image
+    - path: /etc/containers/systemd/nitter.network
+      mode: 0644
+      contents:
+        local: nitter/nitter.network
+    - path: /etc/containers/systemd/nitter.image
+      mode: 0644
+      contents:
+        local: nitter/nitter.image
+    - path: /etc/containers/systemd/nitter.container
+      mode: 0644
+      contents:
+        local: nitter/nitter.container
+    - path: /etc/systemd/system/irqbalance.service.d/hardened.conf
+      mode: 0644
+      contents:
+        local: irqbalance-hardened.conf
+    - path: /etc/systemd/system/NetworkManager.service.d/hardened.conf
+      mode: 0644
+      contents:
+        local: nm-hardened.conf
+    - path: /etc/ssh/sshd_config.d/override.conf
+      mode: 0644
+      contents:
+        local: ssh_override.conf
+    - path: /etc/sysctl.d/override.conf
+      mode: 0644
+      contents:
+        local: sysctl_override.conf
+    - path: /etc/modprobe.d/override.conf
+      mode: 0644
+      contents:
+        local: modprobe_override.conf
+    - path: /home/nsa_admin/compose.yml
+      mode: 0644
+      contents:
+        local: proxitok/compose.yml
+  links:
+    - path: /etc/systemd/system/kdump.service
+      overwrite: true
+      target: /dev/null
+    - path: /etc/systemd/system/debug-shell.service
+      overwrite: true
+      target: /dev/null
+    - path: /etc/systemd/system/ctrl-alt-del.target
+      overwrite: true
+      target: /dev/null
+grub:
+  users:
+    - name: nsa_admin
+      password_hash: grub.pbkdf2.sha512.10000.B31105B072A33696299F32100094C7AB883CDCB8C74D21080F77304418AB11B26089E4A72155F5C985932171E4E7767DF699C2F0C170942FC4BC1C58661CF8A3.66C2C92749EF508AC94B024FF30EFED5548BFB1278588080F01D30A616A13359AE22282FE51DC0C7E3C25567867913F71C907C5F1318E2497B00BEA4DEEE5A25

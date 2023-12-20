@@ -1,0 +1,22 @@
+[Unit]
+Description=Rimgo Container
+After=local-fs.target
+
+[Container]
+AutoUpdate=registry
+ContainerName=rimgo
+DropCapability=ALL
+Image=ghcr.io/reflux0301/rimgo:latest
+Network=rimgo.network
+ReadOnly=true
+NoNewPrivileges=true
+User=65534:65534
+PublishPort=3005:3000
+
+[Service]
+Restart=always
+TimeoutStartSec=180
+
+[Install]
+# Start by default on boot
+WantedBy=multi-user.target default.target

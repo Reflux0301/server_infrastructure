@@ -1,0 +1,167 @@
+variant: fcos
+version: 1.5.0
+boot_device:
+  luks:
+    tpm2: true
+    tang:
+      - url: http://192.168.1.130
+        thumbprint: kIBh_MfcUIQ58TJ6_8VgJ19Hg0APBdX-wW588CGSePA 
+    threshold: 2
+passwd:
+  users:
+    - name: nsa_admin
+      home_dir: /home/nsa_admin
+      groups:
+        - wheel
+        - sudo
+      shell: /bin/bash
+      ssh_authorized_keys: 
+        - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAku+jOnrGRxpe0TBUmN8FjmQaKvbcOWLsCej4GQ/sjd kuantum@DESKTOP-6HK09KG
+kernel_arguments:
+  should_exist:
+    - ip=192.168.1.100::192.168.1.1:255.255.255.0:webserver:eth0:none:1.1.1.1
+    - spectre_v2=on
+    - spec_store_bypass_disable=on
+    - l1tf=full,force
+    - mds=full,nosmt
+    - tsx=off
+    - tsx_async_abort=full,nosmt
+    - kvm.nx_huge_pages=force
+    - nosmt=force
+    - l1d_flush=on
+    - mmio_stale_data=full,nosmt
+    - random.trust_bootloader=off
+    - random.trust_cpu=off
+    - intel_iommu=on
+    - amd_iommu=force_isolation
+    - efi=disable_early_pci_dma
+    - iommu=force
+    - iommu.passthrough=0
+    - iommu.strict=1
+    - slab_nomerge
+    - init_on_alloc=1
+    - init_on_free=1
+    - pti=on
+    - vsyscall=none
+    - page_alloc.shuffle=1
+    - randomize_kstack_offset=on
+    - extra_latent_entropy
+    - debugfs=off
+systemd:
+  units:
+    - name: rpm-ostree-install@.service
+      enabled: true
+      contents_local: rpm-ostree-install@.service
+    - name: rpm-ostree-install@caddy.service
+      enabled: true
+    - name: rpm-ostree-install@hyperv-daemons-license.service
+      enabled: true
+    - name: rpm-ostree-install@hyperv-daemons.service
+      enabled: true
+    - name: apply-caddy-permissions.service
+      enabled: true
+      contents_local: apply-caddy-permissions.service
+    - name: systemd-oomd.service
+      enabled: true
+    - name: rpm-ostree-countme.timer
+      enabled: false
+      mask: true
+    - name: docker.service
+      enabled: false
+storage:
+  directories:
+    - path: /var/cache/rpm-ostree-install
+    - path: /etc/systemd/system/NetworkManager.service.d
+    - path: /etc/systemd/system/irqbalance.service.d
+  files:
+    - path: /etc/hostname
+      mode: 0644
+      contents:
+        inline: webserver
+    - path: /etc/ssl/certs/kuantum.uk.pem
+      mode: 0600
+      contents:
+        local: ssl-certs/kuantum.uk.pem
+    - path: /etc/ssl/certs/kuantum.uk.priv.pem
+      mode: 0600
+      contents:
+        local: ssl-certs/kuantum.uk.priv.pem
+    - path: /etc/ssl/certs/gotbitch.es.pem
+      mode: 0600
+      contents:
+        local: ssl-certs/gotbitch.es.pem
+    - path: /etc/ssl/certs/gotbitch.es.priv.pem
+      mode: 0600
+      contents:
+        local: ssl-certs/gotbitch.es.priv.pem
+    - path: /etc/ssl/certs/nullnet.services.pem
+      mode: 0600
+      contents:
+        local: ssl-certs/nullnet.services.pem
+    - path: /etc/ssl/certs/nullnet.services.priv.pem
+      mode: 0600
+      contents:
+        local: ssl-certs/nullnet.services.priv.pem
+    - path: /etc/ssl/certs/youhaveno.dad.pem
+      mode: 0600
+      contents:
+        local: ssl-certs/youhaveno.dad.pem
+    - path: /etc/ssl/certs/youhaveno.dad.priv.pem
+      mode: 0600
+      contents:
+        local: ssl-certs/youhaveno.dad.priv.pem
+    - path: /etc/ssl/certs/youhaveno.date.pem
+      mode: 0600
+      contents:
+        local: ssl-certs/youhaveno.date.pem
+    - path: /etc/ssl/certs/youhaveno.date.priv.pem
+      mode: 0600
+      contents:
+        local: ssl-certs/youhaveno.date.priv.pem
+    - path: /etc/ssl/certs/gotnobitch.es.pem
+      mode: 0600
+      contents:
+        local: ssl-certs/gotnobitch.es.pem
+    - path: /etc/ssl/certs/gotnobitch.es.priv.pem
+      mode: 0600
+      contents:
+        local: ssl-certs/gotnobitch.es.priv.pem
+    - path: /etc/caddy/Caddyfile
+      mode: 0600
+      contents:
+        local: Caddyfile
+    - path: /etc/systemd/system/irqbalance.service.d/hardened.conf
+      mode: 0644
+      contents:
+        local: irqbalance-hardened.conf
+    - path: /etc/systemd/system/NetworkManager.service.d/hardened.conf
+      mode: 0644
+      contents:
+        local: nm-hardened.conf
+    - path: /etc/ssh/sshd_config.d/override.conf
+      mode: 0644
+      contents:
+        local: ssh_override.conf
+    - path: /etc/sysctl.d/override.conf
+      mode: 0644
+      contents:
+        local: sysctl_override.conf
+    - path: /etc/modprobe.d/override.conf
+      mode: 0644
+      contents:
+        local: modprobe_override.conf
+  links:
+    - path: /etc/systemd/system/kdump.service
+      overwrite: true
+      target: /dev/null
+    - path: /etc/systemd/system/debug-shell.service
+      overwrite: true
+      target: /dev/null
+    - path: /etc/systemd/system/ctrl-alt-del.target
+      overwrite: true
+      target: /dev/null
+grub:
+  users:
+    - name: nsa_admin
+      password_hash: grub.pbkdf2.sha512.10000.B31105B072A33696299F32100094C7AB883CDCB8C74D21080F77304418AB11B26089E4A72155F5C985932171E4E7767DF699C2F0C170942FC4BC1C58661CF8A3.66C2C92749EF508AC94B024FF30EFED5548BFB1278588080F01D30A616A13359AE22282FE51DC0C7E3C25567867913F71C907C5F1318E2497B00BEA4DEEE5A25
+  

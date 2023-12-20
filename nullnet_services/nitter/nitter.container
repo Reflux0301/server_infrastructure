@@ -1,0 +1,22 @@
+[Unit]
+Description=Nitter Container
+After=nitter-redis.service
+
+[Container]
+AutoUpdate=registry
+ContainerName=nitter
+DropCapability=ALL
+Image=ghcr.io/reflux0301/nitter:latest
+Network=nitter.network
+PublishPort=3001:8080
+User=nobody
+ReadOnly=true
+NoNewPrivileges=true
+
+[Service]
+Restart=always
+TimeoutStartSec=180
+
+[Install]
+# Start by default on boot
+WantedBy=multi-user.target default.target

@@ -1,0 +1,23 @@
+[Unit]
+Description=Wikiless Container
+Requires=wikiless-redis.service
+After=wikiless-redis.service
+
+[Container]
+AutoUpdate=registry
+ContainerName=wikiless
+DropCapability=ALL
+Environment=DOMAIN=wikiless.nullnet.services
+Environment=HTTP_ADDR=0.0.0.0
+Environment=REDIS_URL=redis://wikiless-redis
+Image=ghcr.io/reflux0301/wikiless:latest
+Network=wikiless.network
+PublishPort=3010:8080
+
+[Service]
+Restart=always
+TimeoutStartSec=180
+
+[Install]
+# Start by default on boot
+WantedBy=multi-user.target default.target

@@ -1,0 +1,23 @@
+[Unit]
+Description=SearXNG Container
+Requires=searxng-redis.service
+After=searxng-redis.service
+
+[Container]
+AutoUpdate=registry
+AddCapability=CHOWN SETGID SETUID
+ContainerName=searxng
+DropCapability=ALL
+Environment=SEARXNG_BASE_URL=https://searxng.nullnet.services/
+Image=docker.io/searxng/searxng:latest
+Network=searxng.network
+PublishPort=3004:8080
+Volume=/var/local/podman/configs/searxng:/etc/searxng:rw,Z
+
+[Service]
+Restart=always
+TimeoutStartSec=180
+
+[Install]
+# Start by default on boot
+WantedBy=multi-user.target default.target

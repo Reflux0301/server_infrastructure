@@ -1,0 +1,22 @@
+[Unit]
+Description=Neuters Container
+After=local-fs.target
+
+[Container]
+AutoUpdate=registry
+ContainerName=neuters
+DropCapability=ALL
+Image=ghcr.io/reflux0301/neuters:latest
+Network=neuters.network
+ReadOnly=true
+NoNewPrivileges=true
+User=65534:65534
+PublishPort=3009:13369
+
+[Service]
+Restart=always
+TimeoutStartSec=180
+
+[Install]
+# Start by default on boot
+WantedBy=multi-user.target default.target

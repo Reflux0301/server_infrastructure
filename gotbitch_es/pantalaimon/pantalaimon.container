@@ -1,0 +1,19 @@
+[Unit]
+Description=Pantalaimon Container
+After=local-fs.target
+
+[Container]
+AutoUpdate=registry
+ContainerName=pantalaimon
+DropCapability=ALL
+Image=ghcr.io/reflux0301/pantalaimon:latest
+Network=matterbridge.network
+PublishPort=20662:20662
+
+[Service]
+Restart=always
+TimeoutStartSec=180
+
+[Install]
+# Start by default on boot
+WantedBy=multi-user.target default.target

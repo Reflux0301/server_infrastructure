@@ -1,0 +1,19 @@
+[Unit]
+Description=LibremDB Redis Container
+Before=libremdb.service
+After=local-fs.target
+
+[Container]
+AutoUpdate=registry
+ContainerName=libremdb-redis
+Image=docker.io/library/redis
+Network=libremdb.network
+Volume:libremdb-redis:/data
+
+[Service]
+Restart=always
+TimeoutStartSec=180
+
+[Install]
+# Start by default on boot
+WantedBy=multi-user.target default.target

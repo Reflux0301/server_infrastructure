@@ -1,0 +1,22 @@
+[Unit]
+Description=SearXNG Redis Container
+Before=searxng.service
+After=local-fs.target
+
+[Container]
+AutoUpdate=registry
+AddCapability=SETGID SETUID DAC_OVERRIDE
+ContainerName=searxng-redis
+Exec=redis-server --save "" --appendonly "no"
+DropCapability=ALL
+Image=docker.io/library/redis:alpine
+Network=searxng.network
+Tmpfs=/var/lib/redis
+
+[Service]
+Restart=always
+TimeoutStartSec=180
+
+[Install]
+# Start by default on boot
+WantedBy=multi-user.target default.target

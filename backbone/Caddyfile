@@ -1,0 +1,207 @@
+(global) {
+	header {
+		# Unset unused permissions
+		Permissions-Policy "accelerometer=(), ambient-light-sensor=(), autoplay=(), battery=(), camera=(), clipboard-read=(), display-capture=(), document-domain=(), encrypted-media=(), fullscreen=(), geolocation=(), gyroscope=(), hid=(), idle-detection=(), interest-cohort=(), magnetometer=(), microphone=(), midi=(), payment=(), picture-in-picture=(), screen-wake-lock=(), serial=(), usb=(), sync-xhr=(), xr-spatial-tracking=()";
+
+		# enable HSTS
+		Strict-Transport-Security "max-age=31536000; includeSubDomains; preload;"
+
+		# XSS Protection
+		X-XSS-Protection "0"
+
+		# Prevent search engines from indexing (optional)
+		X-Robots-Tag "none"
+
+		# disable clients from sniffing the media type
+		X-Content-Type-Options nosniff
+
+		# clickjacking protection
+		X-Frame-Options DENY
+
+		# keep referrer data off of HTTP connections
+		Referrer-Policy no-referrer
+
+		# Remove Server (does nothing but I want to feel good about it)
+		-Server
+	}
+
+	handle_errors {
+		reverse_proxy 192.168.1.155:7902
+	}
+}
+
+# ==========================================
+# kuantum.uk domains here
+# ==========================================
+
+sonarr.kuantum.uk {
+	tls /etc/ssl/certs/kuantum.uk.pem /etc/ssl/certs/kuantum.uk.priv.pem
+	reverse_proxy 192.168.1.140:8989
+	import global
+}
+
+radarr.kuantum.uk {
+	tls /etc/ssl/certs/kuantum.uk.pem /etc/ssl/certs/kuantum.uk.priv.pem
+	reverse_proxy 192.168.1.140:7878
+}
+
+qbit.kuantum.uk {
+	tls /etc/ssl/certs/kuantum.uk.pem /etc/ssl/certs/kuantum.uk.priv.pem
+	reverse_proxy 192.168.1.140:8080
+	# import global
+}
+
+bitwarden.kuantum.uk {
+	tls /etc/ssl/certs/kuantum.uk.pem /etc/ssl/certs/kuantum.uk.priv.pem
+
+	reverse_proxy 192.168.1.200:1234 {
+        header_up X-Real-IP {remote_host}
+    }
+
+	import global
+}
+
+# ==========================================
+# gotbitch.es domains here
+# ==========================================
+
+gotbitch.es {
+	tls /etc/ssl/certs/gotbitch.es.pem /etc/ssl/certs/gotbitch.es.priv.pem
+	reverse_proxy 192.168.1.201:7901
+	import global
+}
+
+cdn.gotbitch.es {
+	tls /etc/ssl/certs/gotbitch.es.pem /etc/ssl/certs/gotbitch.es.priv.pem
+	reverse_proxy 192.168.1.201:20662
+	import global
+}
+
+# ==========================================
+# nullnet.services domains here
+# ==========================================
+
+nullnet.services {
+	tls /etc/ssl/certs/nullnet.services.pem /etc/ssl/certs/nullnet.services.priv.pem
+	reverse_proxy 192.168.1.202:3000
+	import global
+	header {
+		# Advertise Onion Location
+		Onion-Location http://tz2jagts2darabu545vjzcpddnjixj2d4vomn54ngguctzdnwwpjojqd.onion
+	}
+}
+
+nitter.nullnet.services {
+	tls /etc/ssl/certs/nullnet.services.pem /etc/ssl/certs/nullnet.services.priv.pem
+	reverse_proxy 192.168.1.202:3001
+	import global
+	header {
+		# Advertise Onion Header
+		Onion-Location http://6f6rw6kmudvzxdk4u2m5hojb2anvsttez6c6ng5q5c4o7viykvxxe4ad.onion
+	}
+}
+
+libreddit.nullnet.services {
+	tls /etc/ssl/certs/nullnet.services.pem /etc/ssl/certs/nullnet.services.priv.pem
+	reverse_proxy 192.168.1.202:3002
+	import global
+	header {
+		# Advertise Onion Location
+		Onion-Location http://jbo22difgsrrpfomnkrejftxei2hhfeah2yzyem34eqybhycddzrncad.onion
+	}
+}
+
+proxitok.nullnet.services {
+	tls /etc/ssl/certs/nullnet.services.pem /etc/ssl/certs/nullnet.services.priv.pem
+	reverse_proxy 192.168.1.202:3003
+	import global
+	header {
+		# Advertise Onion Location
+		Onion-Location http://54fcfcrl6yagxqdevuhfmbyyybzms7j7df5atji5pt5acgb3eoo2zoad.onion
+	}
+}
+
+searxng.nullnet.services {
+	tls /etc/ssl/certs/nullnet.services.pem /etc/ssl/certs/nullnet.services.priv.pem
+	reverse_proxy 192.168.1.202:3004
+	import global
+	header {
+		# Advertise Onion Location
+		Onion-Location http://euissbbefpds2bofx32g226bt4l5ksnqvahmetfiveb74b63mv5oquid.onion
+	}
+}
+
+rimgo.nullnet.services {
+	tls /etc/ssl/certs/nullnet.services.pem /etc/ssl/certs/nullnet.services.priv.pem
+	reverse_proxy 192.168.1.202:3005
+	import global
+	header {
+		# Advertise Onion Location
+		Onion-Location http://sae2rrljgmhuqpflxckvuui4oll27nhx6g3estqbczbme26zlwyoc5ad.onion
+	}
+}
+
+gothub.nullnet.services {
+	tls /etc/ssl/certs/nullnet.services.pem /etc/ssl/certs/nullnet.services.priv.pem
+	reverse_proxy 192.168.1.202:3006
+	import global
+	header {
+		# Advertise Onion Location
+		Onion-Location http://bssr6buuoja2la6krshq56kcrz2zzspijnxjyp5r2fssq7gru4c34xid.onion
+	}
+}
+
+libremdb.nullnet.services {
+	tls /etc/ssl/certs/nullnet.services.pem /etc/ssl/certs/nullnet.services.priv.pem
+	reverse_proxy 192.168.1.202:3007
+	import global
+	header {
+		# Advertise Onion Location
+		Onion-Location http://t67xoitdmewelbigv55i4xfsjnzy4fgkntq2p5bvfyfbzwbxnxsgqkid.onion
+	}
+}
+
+simplytranslate.nullnet.services {
+	tls /etc/ssl/certs/nullnet.services.pem /etc/ssl/certs/nullnet.services.priv.pem
+	reverse_proxy 192.168.1.202:3008
+	import global
+	header {
+		# Advertise Onion Location
+		Onion-Location http://yg2lbyxhmugvznk42zsiol2ww4d6ifz7xjtw72ycgmifuzijp36mload.onion
+	}
+}
+
+neuters.nullnet.services {
+	tls /etc/ssl/certs/nullnet.services.pem /etc/ssl/certs/nullnet.services.priv.pem
+	reverse_proxy 192.168.1.202:3009
+	import global
+	header {
+		# Advertise Onion Location
+		Onion-Location http://cks4ehpnq537bdlhwkmnw3gbi53277lq7wazxb3pbcawq7nzdrbkvqad.onion
+	}
+}
+
+wikiless.nullnet.services {
+	tls /etc/ssl/certs/nullnet.services.pem /etc/ssl/certs/nullnet.services.priv.pem
+	reverse_proxy 192.168.1.202:3010
+	import global
+	header {
+		# Advertise Onion Location
+		Onion-Location http://otvw7hu5y2jyqg5ltpcpguumaqtim2fs7ihjgynrbxhju3kkn35ryxqd.onion
+	}
+}
+
+hckrnws.nullnet.services {
+	tls /etc/ssl/certs/nullnet.services.pem /etc/ssl/certs/nullnet.services.priv.pem
+	reverse_proxy 192.168.1.202:3011
+	import global
+	header {
+		# Advertise Onion Location
+		Onion-Location http://qi3ixkykuzj35v5i6efmsk5nzvklario3mfgetrvpuk5g2nu76m7e4id.onion
+	}
+}
+
+# ==========================================
+# youhaveno.date domains here
+# ==========================================
+

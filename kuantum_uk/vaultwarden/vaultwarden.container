@@ -1,0 +1,21 @@
+[Unit]
+Description=Vaultwarden Container
+After=local-fs.target
+
+[Container]
+AutoUpdate=registry
+ContainerName=vaultwarden
+Image=ghcr.io/dani-garcia/vaultwarden
+Environment=WEBSOCKET_ENABLED=true
+Environment=DOMAIN=https://bitwarden.kuantum.uk
+Network=vaultwarden.network
+PublishPort=1234:80
+Volume=/var/local/podman/configs/vaultwarden:/data:Z 
+
+[Service]
+Restart=always
+TimeoutStartSec=180
+
+[Install]
+# Start by default on boot
+WantedBy=multi-user.target default.target

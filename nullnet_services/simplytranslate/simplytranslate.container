@@ -1,0 +1,22 @@
+[Unit]
+Description=SimplyTranslate Container
+After=local-fs.target
+
+[Container]
+AutoUpdate=registry
+ContainerName=simplytranslate
+DropCapability=ALL
+Image=ghcr.io/reflux0301/simplytranslate:latest
+Network=simplytranslate.network
+ReadOnly=true
+NoNewPrivileges=true
+User=65534:65534
+PublishPort=3008:5000
+
+[Service]
+Restart=always
+TimeoutStartSec=180
+
+[Install]
+# Start by default on boot
+WantedBy=multi-user.target default.target

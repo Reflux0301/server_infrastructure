@@ -1,0 +1,22 @@
+[Unit]
+Description=Matterbridge Container
+After=local-fs.target
+
+[Container]
+AutoUpdate=registry
+ContainerName=matterbridge
+DropCapability=ALL
+Image=ghcr.io/reflux0301/matterbridge:latest
+Network=matterbridge.network
+ReadOnly=true
+NoNewPrivileges=true
+Tmpfs=/tmp:size=10M,mode=0770,noexec,nosuid,nodev
+Volume=/var/local/podman/configs/matterbridge/bridge.toml:/bridge.toml:Z
+
+[Service]
+Restart=always
+TimeoutStartSec=180
+
+[Install]
+# Start by default on boot
+WantedBy=multi-user.target default.target
