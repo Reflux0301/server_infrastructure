@@ -12,6 +12,8 @@ PublishPort=3001:8080
 User=nobody
 ReadOnly=true
 NoNewPrivileges=true
+GlobalArgs=--runtime=runsc
+SecurityLabelDisable=true
 
 [Service]
 Restart=always

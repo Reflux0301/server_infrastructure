@@ -12,6 +12,8 @@ PublishPort=7901:8080
 ReadOnly=true
 NoNewPrivileges=true
 Tmpfs=/tmp:size=10M,noexec,nosuid,nodev
+GlobalArgs=--runtime=runsc
+SecurityLabelDisable=trues
 
 [Service]
 Restart=always

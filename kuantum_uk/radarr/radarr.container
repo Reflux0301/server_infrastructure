@@ -1,0 +1,24 @@
+[Unit]
+Description=Radarr Container
+After=local-fs.target
+
+[Container]
+AutoUpdate=registry
+ContainerName=radarr
+Image=lscr.io/linuxserver/radarr:latest
+Environment=PUID=1000
+Environment=PGID=1000
+Environment=TZ=Etc/UTC
+Network=radarr.network
+PublishPort=7878:7878
+Volume=/var/local/podman/configs/radarr:/config:Z
+Volume=/var/mnt/movies:/movies
+Volume=/var/local/podman/torrents:/downloads:z
+
+[Service]
+Restart=always
+TimeoutStartSec=180
+
+[Install]
+# Start by default on boot
+WantedBy=multi-user.target default.target

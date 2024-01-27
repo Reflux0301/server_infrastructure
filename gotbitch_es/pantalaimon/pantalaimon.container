@@ -9,6 +9,8 @@ DropCapability=ALL
 Image=ghcr.io/reflux0301/pantalaimon:latest
 Network=matterbridge.network
 PublishPort=20662:20662
+GlobalArgs=--runtime=runsc
+SecurityLabelDisable=true
 
 [Service]
 Restart=always

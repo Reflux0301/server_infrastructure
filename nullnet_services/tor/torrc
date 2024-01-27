@@ -1,0 +1,35 @@
+HiddenServiceDir /var/lib/tor/main_page/
+HiddenServicePort 80 127.0.0.1:3000
+
+HiddenServiceDir /var/lib/tor/nitter/
+HiddenServicePort 80 127.0.0.1:3001
+
+HiddenServiceDir /var/lib/tor/libreddit/
+HiddenServicePort 80 127.0.0.1:3002
+
+HiddenServiceDir /var/lib/tor/proxitok/
+HiddenServicePort 80 127.0.0.1:3003
+
+HiddenServiceDir /var/lib/tor/searxng/
+HiddenServicePort 80 127.0.0.1:3004
+
+HiddenServiceDir /var/lib/tor/rimgo/
+HiddenServicePort 80 127.0.0.1:3005
+
+HiddenServiceDir /var/lib/tor/gothub/
+HiddenServicePort 80 127.0.0.1:3006
+
+HiddenServiceDir /var/lib/tor/libremdb/
+HiddenServicePort 80 127.0.0.1:3007
+
+HiddenServiceDir /var/lib/tor/simplytranslate/
+HiddenServicePort 80 127.0.0.1:3008
+
+HiddenServiceDir /var/lib/tor/neuters/
+HiddenServicePort 80 127.0.0.1:3009
+
+HiddenServiceDir /var/lib/tor/wikiless/
+HiddenServicePort 80 127.0.0.1:3010
+
+HiddenServiceDir /var/lib/tor/hckrnws/
+HiddenServicePort 80 127.0.0.1:3011

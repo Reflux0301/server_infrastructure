@@ -13,6 +13,8 @@ Environment=REDIS_URL=redis://wikiless-redis
 Image=ghcr.io/reflux0301/wikiless:latest
 Network=wikiless.network
 PublishPort=3010:8080
+GlobalArgs=--runtime=runsc
+SecurityLabelDisable=true
 
 [Service]
 Restart=always

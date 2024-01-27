@@ -1,0 +1,27 @@
+[Unit]
+Description=Proxitok Redis Container
+Requires=proxitok-signer.service
+After=proxitok-signer.service
+
+[Container]
+AddCapability=CHOWN
+AddCapability=SETUID
+AddCapability=SETGID
+AutoUpdate=registry
+ContainerName=proxitok-redis
+DropCapability=ALL
+Image=docker.io/library/redis:7-alpine
+Network=wikiless.network
+ReadOnly=true
+User=nobody
+NoNewPrivileges=true
+Tmpfs=/data:size=10M,noexec,nosuid,nodev
+Exec=redis-server --save 60 1 --loglevel warning
+
+[Service]
+Restart=always
+TimeoutStartSec=180
+
+[Install]
+# Start by default on boot
+WantedBy=multi-user.target default.target

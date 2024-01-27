@@ -11,6 +11,8 @@ Environment=DOMAIN=https://bitwarden.kuantum.uk
 Network=vaultwarden.network
 PublishPort=1234:80
 Volume=/var/local/podman/configs/vaultwarden:/data:Z 
+GlobalArgs=--runtime=runsc
+SecurityLabelDisable=true
 
 [Service]
 Restart=always

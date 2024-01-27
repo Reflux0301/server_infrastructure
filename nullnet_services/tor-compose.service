@@ -1,0 +1,12 @@
+[Unit]
+Description=Tor Compose Service
+After=rpm-ostree-install@podman-compose.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/podman compose -f /home/nsa_admin/tor/compose.yml up -d
+ExecStop=/usr/bin/podman compose -f /home/nsa_admin/tor/compose.yml stop
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

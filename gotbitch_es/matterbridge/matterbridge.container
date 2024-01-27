@@ -12,6 +12,8 @@ ReadOnly=true
 NoNewPrivileges=true
 Tmpfs=/tmp:size=10M,mode=0770,noexec,nosuid,nodev
 Volume=/var/local/podman/configs/matterbridge/bridge.toml:/bridge.toml:Z
+GlobalArgs=--runtime=runsc
+SecurityLabelDisable=true
 
 [Service]
 Restart=always

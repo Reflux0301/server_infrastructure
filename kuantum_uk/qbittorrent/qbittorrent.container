@@ -1,0 +1,25 @@
+[Unit]
+Description=qBittorrent Container
+After=gluetun.service
+
+[Container]
+AutoUpdate=registry
+ContainerName=qbittorrent
+Image=lscr.io/linuxserver/qbittorrent:latest
+Environment=PUID=1000
+Environment=PGID=1000
+Environment=TZ=Etc/UTC
+Environment=WEBUI_PORT=8080
+Network=container:gluetun
+Volume=/var/local/podman/configs/qbittorrent:/config:Z
+Volume=/var/local/podman/torrents:/downloads:z
+GlobalArgs=--runtime=runsc
+SecurityLabelDisable=true
+
+[Service]
+Restart=always
+TimeoutStartSec=180
+
+[Install]
+# Start by default on boot
+WantedBy=multi-user.target default.target

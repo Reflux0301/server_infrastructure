@@ -5,7 +5,7 @@ boot_device:
     tpm2: true
     tang:
       - url: http://192.168.1.130
-        thumbprint: kIBh_MfcUIQ58TJ6_8VgJ19Hg0APBdX-wW588CGSePA 
+        thumbprint: reluQMe4DOHJoSyQMy8dbe3r0EeLsDkc_0cbIuzPglc
     threshold: 2
 passwd:
   users:
@@ -49,13 +49,6 @@ kernel_arguments:
     - debugfs=off
 systemd:
   units:
-    - name: rpm-ostree-install@.service
-      enabled: true
-      contents_local: rpm-ostree-install@.service
-    - name: rpm-ostree-install@hyperv-daemons-license.service
-      enabled: true
-    - name: rpm-ostree-install@hyperv-daemons.service
-      enabled: true
     - name: systemd-oomd.service
       enabled: true
     - name: rpm-ostree-countme.timer
@@ -65,12 +58,18 @@ systemd:
       enabled: false
 storage:
   directories:
-    - path: /var/cache/rpm-ostree-install
     - path: /etc/systemd/system/NetworkManager.service.d
     - path: /etc/systemd/system/irqbalance.service.d
     - path: /var/local/podman/configs/gotbitches
     - path: /var/local/podman/configs/matterbridge
     - path: /var/local/podman/configs/pantalaimon
+  trees:
+    - local: gotbitches
+      path: /etc/containers/systemd
+    - local: matterbridge
+      path: /etc/containers/systemd
+    - local: pantalaimon
+      path: /etc/containers/systemd
   files:
     - path: /etc/hostname
       mode: 0644
@@ -79,39 +78,7 @@ storage:
     - path: /var/local/podman/configs/matterbridge/bridge.toml
       mode: 0644
       contents:
-        local: matterbridge/bridge.toml
-    - path: /etc/containers/systemd/gotbitches.container
-      mode: 0644
-      contents:
-        local: gotbitches/gotbitches.container
-    - path: /etc/containers/systemd/gotbitches.image
-      mode: 0644
-      contents:
-        local: gotbitches/gotbitches.image
-    - path: /etc/containers/systemd/gotbitches.network
-      mode: 0644
-      contents:
-        local: gotbitches/gotbitches.network
-    - path: /etc/containers/systemd/matterbridge.container
-      mode: 0644
-      contents:
-        local: matterbridge/matterbridge.container
-    - path: /etc/containers/systemd/matterbridge.image
-      mode: 0644
-      contents:
-        local: matterbridge/matterbridge.image
-    - path: /etc/containers/systemd/matterbridge.network
-      mode: 0644
-      contents:
-        local: matterbridge/matterbridge.network
-    - path: /etc/containers/systemd/pantalaimon.container
-      mode: 0644
-      contents:
-        local: pantalaimon/pantalaimon.container
-    - path: /etc/containers/systemd/pantalaimon.image
-      mode: 0644
-      contents:
-        local: pantalaimon/pantalaimon.image
+        local: bridge.toml
     - path: /etc/systemd/system/irqbalance.service.d/hardened.conf
       mode: 0644
       contents:
@@ -120,7 +87,7 @@ storage:
       mode: 0644
       contents:
         local: nm-hardened.conf
-    - path: /etc/ssh/sshd_config.d/override.conf
+    - path: /etc/ssh/sshd_config.d/10-grapheneos-override.conf
       mode: 0644
       contents:
         local: ssh_override.conf

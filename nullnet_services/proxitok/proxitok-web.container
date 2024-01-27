@@ -1,0 +1,30 @@
+[Unit]
+Description=Proxitok Container
+Requires=proxitok-redis.service
+After=proxitok-redis.service
+
+[Container]
+AddCapability=CHOWN
+AddCapability=SETGID
+AddCapability=SETUID
+AutoUpdate=registry
+ContainerName=proxitok
+DropCapability=ALL
+Environment=LATTE_CACHE=/cache
+Environment=API_CACHE=redis
+Environment=REDIS_HOST=proxitok-redis
+Environment=API_SIGNER=remote
+Environment=API_SIGNER_URL=http://proxitok-signer:8080/signature
+Image=ghcr.io/pablouser1/proxitok:master
+Network=proxitok.network
+PublishPort=3003:8080
+NoNewPrivileges=true
+Volume=proxitok-cache:/cache
+
+[Service]
+Restart=always
+TimeoutStartSec=180
+
+[Install]
+# Start by default on boot
+WantedBy=multi-user.target default.target

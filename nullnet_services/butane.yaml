@@ -5,7 +5,7 @@ boot_device:
     tpm2: true
     tang:
       - url: http://192.168.1.130
-        thumbprint: kIBh_MfcUIQ58TJ6_8VgJ19Hg0APBdX-wW588CGSePA
+        thumbprint: reluQMe4DOHJoSyQMy8dbe3r0EeLsDkc_0cbIuzPglc
     threshold: 2
 passwd:
   users:
@@ -52,15 +52,14 @@ systemd:
     - name: rpm-ostree-install@.service
       enabled: true
       contents_local: rpm-ostree-install@.service
-    - name: rpm-ostree-install@hyperv-daemons-license.service
-      enabled: true
-    - name: rpm-ostree-install@hyperv-daemons.service
-      enabled: true
     - name: rpm-ostree-install@podman-compose.service
       enabled: true
-    - name: proxitok-compose.service
+    - name: tor-compose.service
       enabled: true
-      contents_local: proxitok-compose.service
+      contents_local: tor-compose.service
+    - name: i2pd-compose.service
+      enabled: true
+      contents_local: i2pd-compose.service
     - name: systemd-oomd.service
       enabled: true
     - name: rpm-ostree-countme.timer
@@ -71,6 +70,8 @@ systemd:
 storage:
   directories:
     - path: /var/cache/rpm-ostree-install
+    - path: /home/nsa_admin/i2pd
+    - path: /home/nsa_admin/tor
     - path: /var/local/podman/configs/searxng
     - path: /etc/systemd/system/NetworkManager.service.d
     - path: /etc/systemd/system/irqbalance.service.d
@@ -79,170 +80,6 @@ storage:
       mode: 0644
       contents:
         inline: server.nullnet.services
-    - path: /etc/containers/systemd/main_site.network
-      mode: 0644
-      contents:
-        local: main_site/main_site.network
-    - path: /etc/containers/systemd/main_site.image
-      mode: 0644
-      contents:
-        local: main_site/main_site.image
-    - path: /etc/containers/systemd/main_site.container
-      mode: 0644
-      contents:
-        local: main_site/main_site.container
-    - path: /etc/containers/systemd/wikiless-redis.image
-      mode: 0644
-      contents:
-        local: wikiless/wikiless-redis.image
-    - path: /etc/containers/systemd/wikiless-redis.container
-      mode: 0644
-      contents:
-        local: wikiless/wikiless-redis.container
-    - path: /etc/containers/systemd/wikiless.network
-      mode: 0644
-      contents:
-        local: wikiless/wikiless.network
-    - path: /etc/containers/systemd/wikiless.image
-      mode: 0644
-      contents:
-        local: wikiless/wikiless.image
-    - path: /etc/containers/systemd/wikiless.container
-      mode: 0644
-      contents:
-        local: wikiless/wikiless.container
-    - path: /etc/containers/systemd/simplytranslate.network
-      mode: 0644
-      contents:
-        local: simplytranslate/simplytranslate.network
-    - path: /etc/containers/systemd/simplytranslate.image
-      mode: 0644
-      contents:
-        local: simplytranslate/simplytranslate.image
-    - path: /etc/containers/systemd/simplytranslate.container
-      mode: 0644
-      contents:
-        local: simplytranslate/simplytranslate.container
-    - path: /etc/containers/systemd/searxng-redis.image
-      mode: 0644
-      contents:
-        local: searxng/searxng-redis.image
-    - path: /etc/containers/systemd/searxng-redis.container
-      mode: 0644
-      contents:
-        local: searxng/searxng-redis.container
-    - path: /etc/containers/systemd/searxng.network
-      mode: 0644
-      contents:
-        local: searxng/searxng.network
-    - path: /etc/containers/systemd/searxng.image
-      mode: 0644
-      contents:
-        local: searxng/searxng.image
-    - path: /etc/containers/systemd/searxng.container
-      mode: 0644
-      contents:
-        local: searxng/searxng.container
-    - path: /etc/containers/systemd/rimgo.network
-      mode: 0644
-      contents:
-        local: rimgo/rimgo.network
-    - path: /etc/containers/systemd/rimgo.image
-      mode: 0644
-      contents:
-        local: rimgo/rimgo.image
-    - path: /etc/containers/systemd/rimgo.container
-      mode: 0644
-      contents:
-        local: rimgo/rimgo.container
-    - path: /etc/containers/systemd/neuters.network
-      mode: 0644
-      contents:
-        local: neuters/neuters.network
-    - path: /etc/containers/systemd/neuters.image
-      mode: 0644
-      contents:
-        local: neuters/neuters.image
-    - path: /etc/containers/systemd/neuters.container
-      mode: 0644
-      contents:
-        local: neuters/neuters.container
-    - path: /etc/containers/systemd/libremdb-redis.image
-      mode: 0644
-      contents:
-        local: libremdb/libremdb-redis.image
-    - path: /etc/containers/systemd/libremdb-redis.container
-      mode: 0644
-      contents:
-        local: libremdb/libremdb-redis.container
-    - path: /etc/containers/systemd/libremdb.network
-      mode: 0644
-      contents:
-        local: libremdb/libremdb.network
-    - path: /etc/containers/systemd/libremdb.image
-      mode: 0644
-      contents:
-        local: libremdb/libremdb.image
-    - path: /etc/containers/systemd/libremdb.container
-      mode: 0644
-      contents:
-        local: libremdb/libremdb.container
-    - path: /etc/containers/systemd/hckrnws.network
-      mode: 0644
-      contents:
-        local: hckrnws/hckrnws.network
-    - path: /etc/containers/systemd/hckrnws.image
-      mode: 0644
-      contents:
-        local: hckrnws/hckrnws.image
-    - path: /etc/containers/systemd/hckrnws.container
-      mode: 0644
-      contents:
-        local: hckrnws/hckrnws.container
-    - path: /etc/containers/systemd/gothub.network
-      mode: 0644
-      contents:
-        local: gothub/gothub.network
-    - path: /etc/containers/systemd/gothub.image
-      mode: 0644
-      contents:
-        local: gothub/gothub.image
-    - path: /etc/containers/systemd/gothub.container
-      mode: 0644
-      contents:
-        local: gothub/gothub.container
-    - path: /etc/containers/systemd/libreddit.network
-      mode: 0644
-      contents:
-        local: libreddit/libreddit.network
-    - path: /etc/containers/systemd/libreddit.image
-      mode: 0644
-      contents:
-        local: libreddit/libreddit.image
-    - path: /etc/containers/systemd/libreddit.container
-      mode: 0644
-      contents:
-        local: libreddit/libreddit.container
-    - path: /etc/containers/systemd/nitter-redis.container
-      mode: 0644
-      contents:
-        local: nitter/nitter-redis.container
-    - path: /etc/containers/systemd/nitter-redis.image
-      mode: 0644
-      contents:
-        local: nitter/nitter-redis.image
-    - path: /etc/containers/systemd/nitter.network
-      mode: 0644
-      contents:
-        local: nitter/nitter.network
-    - path: /etc/containers/systemd/nitter.image
-      mode: 0644
-      contents:
-        local: nitter/nitter.image
-    - path: /etc/containers/systemd/nitter.container
-      mode: 0644
-      contents:
-        local: nitter/nitter.container
     - path: /etc/systemd/system/irqbalance.service.d/hardened.conf
       mode: 0644
       contents:
@@ -263,10 +100,36 @@ storage:
       mode: 0644
       contents:
         local: modprobe_override.conf
-    - path: /home/nsa_admin/compose.yml
-      mode: 0644
-      contents:
-        local: proxitok/compose.yml
+  trees:
+    - local: tor
+      path: /home/nsa_admin/tor
+    - local: i2pd
+      path: /home/nsa_admin/i2pd
+    - local: proxitok
+      path: /etc/containers/systemd
+    - local: main_site
+      path: /etc/containers/systemd
+    - local: nitter
+      path: /etc/containers/systemd
+    - local: libreddit
+      path: /etc/containers/systemd
+    - local: gothub
+      path: /etc/containers/systemd
+    - local: hckrnws
+      path: /etc/containers/systemd
+    - local: libremdb
+      path: /etc/containers/systemd
+    - local: rimgo
+      path: /etc/containers/systemd
+    - local: searxng
+      path: /etc/containers/systemd
+    - local: simplytranslate
+      path: /etc/containers/systemd
+    - local: wikiless
+      path: /etc/containers/systemd
+    - local: neuters
+      path: /etc/containers/systemd
+
   links:
     - path: /etc/systemd/system/kdump.service
       overwrite: true

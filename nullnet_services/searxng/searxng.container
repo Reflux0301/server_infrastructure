@@ -13,6 +13,8 @@ Image=docker.io/searxng/searxng:latest
 Network=searxng.network
 PublishPort=3004:8080
 Volume=/var/local/podman/configs/searxng:/etc/searxng:rw,Z
+GlobalArgs=--runtime=runsc
+SecurityLabelDisable=true
 
 [Service]
 Restart=always

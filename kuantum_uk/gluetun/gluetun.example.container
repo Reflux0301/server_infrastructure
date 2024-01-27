@@ -1,0 +1,28 @@
+[Unit]
+Description=Gluetun Container
+Before=qbittorrent.service
+After=local-fs.target
+
+[Container]
+AddCapability=NET_ADMIN
+AddDevice=/dev/net/tun
+AutoUpdate=registry
+ContainerName=gluetun
+Image=docker.io/qmcgaw/gluetun:latest
+Environment=VPN_SERVICE_PROVIDER=protonvpn
+Environment=OPENVPN_USER=
+Environment=OPENVPN_PASSWORD=
+Environment=SERVER_COUNTRIES="United States"
+PodmanArgs=--privileged
+PublishPort=8080:8080
+PublishPort=6881:6881
+PublishPort=6881:6881/udp
+Volume=/var/local/podman/configs/gluetun:/config:Z
+
+[Service]
+Restart=always
+TimeoutStartSec=180
+
+[Install]
+# Start by default on boot
+WantedBy=multi-user.target default.target

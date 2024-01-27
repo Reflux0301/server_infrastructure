@@ -1,0 +1,14 @@
+version: "3"
+services:
+  i2pd:
+    container_name: i2pd
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 7070:7070
+      - 4444:4444
+      - 4447:4447
+      - 7656:7656
+      - 7654:7654
+    restart: always

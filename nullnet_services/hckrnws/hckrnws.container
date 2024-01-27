@@ -12,6 +12,8 @@ ReadOnly=true
 NoNewPrivileges=true
 User=nobody
 PublishPort=3011:3000
+GlobalArgs=--runtime=runsc
+SecurityLabelDisable=true
 
 [Service]
 Restart=always

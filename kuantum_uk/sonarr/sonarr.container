@@ -1,0 +1,24 @@
+[Unit]
+Description=Sonarr Container
+After=local-fs.target
+
+[Container]
+AutoUpdate=registry
+ContainerName=sonarr
+Image=lscr.io/linuxserver/sonarr:latest
+Environment=PUID=1000
+Environment=PGID=1000
+Environment=TZ=Etc/UTC
+Network=sonarr.network
+PublishPort=8989:8989
+Volume=/var/local/podman/configs/sonarr:/config:Z
+Volume=/var/mnt/tvshows:/tv
+Volume=/var/local/podman/torrents:/downloads:z
+
+[Service]
+Restart=always
+TimeoutStartSec=180
+
+[Install]
+# Start by default on boot
+WantedBy=multi-user.target default.target

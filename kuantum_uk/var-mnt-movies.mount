@@ -1,0 +1,10 @@
+[Unit]
+Description=Mount movies directory
+
+[Mount]
+What=192.168.1.160:/movies
+Where=/var/mnt/movies
+Type=nfs4
+
+[Install]
+WantedBy=multi-user.target

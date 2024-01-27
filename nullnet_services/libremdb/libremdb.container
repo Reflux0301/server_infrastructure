@@ -17,6 +17,8 @@ ReadOnly=true
 Tmpfs=/opt/app/.next/cache/images/:size=10M,noexec,nosuid,nodev
 NoNewPrivileges=true
 PublishPort=3007:3000
+GlobalArgs=--runtime=runsc
+SecurityLabelDisable=true
 
 [Service]
 Restart=always

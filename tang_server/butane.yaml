@@ -79,7 +79,7 @@ storage:
       mode: 0644
       contents:
         local: nm-hardened.conf
-    - path: /etc/ssh/sshd_config.d/override.conf
+    - path: /etc/ssh/sshd_config.d/10-grapheneos-override.conf
       mode: 0644
       contents:
         local: ssh_override.conf

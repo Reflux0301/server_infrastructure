@@ -12,6 +12,10 @@ ReadOnly=true
 NoNewPrivileges=true
 User=65534:65534
 PublishPort=3008:5000
+Environment=ADDRESS=0.0.0.0:5000
+Environment=GOOGLETRANSLATE_ENABLE=true
+GlobalArgs=--runtime=runsc
+SecurityLabelDisable=true
 
 [Service]
 Restart=always

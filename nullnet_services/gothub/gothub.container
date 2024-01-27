@@ -10,6 +10,8 @@ Image=ghcr.io/reflux0301/gothub:latest
 Network=gothub.network
 NoNewPrivileges=true
 PublishPort=3006:3000
+GlobalArgs=--runtime=runsc
+SecurityLabelDisable=true
 
 [Service]
 Restart=always

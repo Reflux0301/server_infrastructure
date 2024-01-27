@@ -1,0 +1,22 @@
+[Unit]
+Description=Proxitok Signer Container
+Before=proxitok-redis.service
+After=local-fs.target
+
+[Container]
+AutoUpdate=registry
+ContainerName=proxitok-signer
+DropCapability=ALL
+Image=ghcr.io/pablouser1/signtok:master
+Network=proxitok.network
+RunInit=true
+ReadOnly=true
+User=nobody
+
+[Service]
+Restart=always
+TimeoutStartSec=180
+
+[Install]
+# Start by default on boot
+WantedBy=multi-user.target default.target

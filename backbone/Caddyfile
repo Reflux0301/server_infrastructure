@@ -24,31 +24,33 @@
 		# Remove Server (does nothing but I want to feel good about it)
 		-Server
 	}
-
-	handle_errors {
-		reverse_proxy 192.168.1.155:7902
-	}
 }
 
 # ==========================================
 # kuantum.uk domains here
 # ==========================================
 
+qbit.kuantum.uk {
+	tls /etc/ssl/certs/kuantum.uk.pem /etc/ssl/certs/kuantum.uk.priv.pem
+	reverse_proxy 192.168.1.200:8080
+	# import global
+}
+
+
 sonarr.kuantum.uk {
 	tls /etc/ssl/certs/kuantum.uk.pem /etc/ssl/certs/kuantum.uk.priv.pem
-	reverse_proxy 192.168.1.140:8989
+	reverse_proxy 192.168.1.200:8989
 	import global
 }
 
 radarr.kuantum.uk {
 	tls /etc/ssl/certs/kuantum.uk.pem /etc/ssl/certs/kuantum.uk.priv.pem
-	reverse_proxy 192.168.1.140:7878
+	reverse_proxy 192.168.1.200:7878
 }
 
-qbit.kuantum.uk {
+prowlarr.kuantum.uk {
 	tls /etc/ssl/certs/kuantum.uk.pem /etc/ssl/certs/kuantum.uk.priv.pem
-	reverse_proxy 192.168.1.140:8080
-	# import global
+	reverse_proxy 192.168.1.200:9696
 }
 
 bitwarden.kuantum.uk {

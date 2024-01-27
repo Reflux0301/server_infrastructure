@@ -1,0 +1,24 @@
+[Unit]
+Description=Prowlarr Container
+After=local-fs.target
+
+[Container]
+AutoUpdate=registry
+ContainerName=prowlarr
+Image=lscr.io/linuxserver/prowlarr:latest
+Environment=PUID=1000
+Environment=PGID=1000
+Environment=TZ=Etc/UTC
+Network=prowlarr.network
+PublishPort=9696:9696
+Volume=/var/local/podman/configs/prowlarr:/config:Z
+GlobalArgs=--runtime=runsc
+SecurityLabelDisable=true
+
+[Service]
+Restart=always
+TimeoutStartSec=180
+
+[Install]
+# Start by default on boot
+WantedBy=multi-user.target default.target

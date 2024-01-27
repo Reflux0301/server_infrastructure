@@ -1,0 +1,24 @@
+[Unit]
+Description=Flaresolverr Container
+After=local-fs.target
+
+[Container]
+AutoUpdate=registry
+ContainerName=flaresolverr
+Image=ghcr.io/flaresolverr/flaresolverr:latest
+Environment=LOG_LEVEL=${LOG_LEVEL:-info}
+Environment=LOG_HTML=${LOG_HTML:-false}
+Environment=CAPTCHA_SOLVER=${CAPTCHA_SOLVER:-none}
+Environment=TZ=Etc/UTC
+Network=flaresolverr.network
+PublishPort=8191:8191
+GlobalArgs=--runtime=runsc
+SecurityLabelDisable=true
+
+[Service]
+Restart=always
+TimeoutStartSec=180
+
+[Install]
+# Start by default on boot
+WantedBy=multi-user.target default.target

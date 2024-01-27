@@ -1,2 +1,6 @@
-gotbitch_es/matterbridge/bridge.toml
+gotbitch_es/bridge.toml
 backbone/ssl-certs/*
+nullnet_services/i2pd/data/*
+nullnet_services/tor/keys/*
+*.ign
+gluetun.container
